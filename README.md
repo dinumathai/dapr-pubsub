@@ -1,22 +1,26 @@
 # DAPR PubSub - Go lang Example
-An example of DAPR PubSub using Go lang. This is an implementation of producer consumer problem with retry.
+An example of DAPR PubSub using Go lang. This is an implementation of producer consumer problem 
+
+Other requirements
+1. Configurable retry if the consumer fails to consume the message.
+1. One consumer can concurrently process only one request
 
 ## Run pubsub program locally
 
 ## Prerequisites
 1. Docker
 1. Golang 1.19 or later
-1. Dapr CLI 1.9 or later
+1. DAPR CLI 1.9 or later
 1. Linux, Mac, or Windows (with WSL)
 
 ### Start rabbit mq
 Using RabbitMQ as all the features are not supported in default redis.
-```
+```sh
 docker run -d --restart unless-stopped --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4.0-management
 ```
 
 ### Initialize DAPR
-```
+```sh
 dapr init 
 ```
 ### Run Consumers and Producers locally
@@ -41,4 +45,7 @@ dapr run --app-id producer --resources-path ./components --dapr-http-port 3601 -
 ```
 
 ### Reference
-1. https://docs.dapr.io/developing-applications/building-blocks/pubsub/howto-publish-subscribe/
+1. [PubSub](https://docs.dapr.io/developing-applications/building-blocks/pubsub/howto-publish-subscribe/)
+1. [Retry / Resiliency Policies](https://docs.dapr.io/operations/resiliency/policies/)
+1. [RabbitMQ Configuration](https://docs.dapr.io/reference/components-reference/supported-pubsub/setup-rabbitmq/)
+1. [Performance](https://docs.dapr.io/operations/performance-and-scalability/perf-service-invocation/)
