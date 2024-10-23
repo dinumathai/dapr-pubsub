@@ -1,23 +1,18 @@
 # DAPR PubSub - Go lang Example
 An example of DAPR PubSub using Go lang. This is an implementation of producer consumer problem with retry.
 
+## Run pubsub program locally
+
 ## Prerequisites
 1. Docker
 1. Golang 1.19 or later
 1. Dapr CLI 1.9 or later
 1. Linux, Mac, or Windows (with WSL)
 
-## Run pubsub program locally
-
 ### Start rabbit mq
+Using RabbitMQ as all the features are not supported in default redis.
 ```
 docker run -d --restart unless-stopped --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4.0-management
-```
-
-### Start jaeger for tracing
-DO NOT USE `jaegertracing/all-in-one` FOR PRODUCTION
-```
-docker run -d --restart unless-stopped --name jaeger -e COLLECTOR_ZIPKIN_HOST_PORT=:9412 -p 16686:16686  -p 9412:9412 jaegertracing/all-in-one:1.22
 ```
 
 ### Initialize  DAPR

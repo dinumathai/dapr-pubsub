@@ -6,6 +6,8 @@ metadata:
 spec:
   type: pubsub.rabbitmq
   version: v1
+  tracing:
+    enabled: true  # Enable tracing for this component
   metadata:
   - name: host
     value: "amqp://localhost:5672"
