@@ -3,9 +3,11 @@ package main
 import (
 	"context"
 	"dapr-pubsub/appconst"
+	"errors"
 	"flag"
 	"fmt"
 	"log"
+	"math/rand/v2"
 	"net/http"
 	"os"
 	"time"
@@ -18,7 +20,7 @@ import (
 var sub = &common.Subscription{
 	PubsubName: appconst.PUBSUB_NAME,
 	Topic:      appconst.TOPIC_NAME,
-	Route:      "/checkout",
+	Route:      "/checkout", // The Route of the application
 }
 
 func main() {
@@ -39,9 +41,17 @@ func main() {
 	}
 }
 
-func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err error) {
+func eventHandler(ctx context.Context, e *common.TopicEvent) (bool, error) {
 	log.Printf("Subscriber received: %v", e.Data)
-	time.Sleep(3 * time.Second)
-	log.Printf("------------------------")
+	time.Sleep(1 * time.Second)
+	randomNumber := rand.IntN(3)
+	if randomNumber == 2 {
+		log.Printf("RETURN - ERROR NO RETRY - %v ------", e.Data)
+		return false, errors.New("pls DO NOT do a retry")
+	}
+	if randomNumber == 1 {
+		log.Printf("RETURN - RETRIABLE ERROR - %v ------", e.Data)
+		return true, errors.New("pls do a retry")
+	}
 	return false, nil
 }

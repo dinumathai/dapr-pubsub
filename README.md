@@ -1,11 +1,10 @@
 # DAPR PubSub - Go lang Example
-An example of DAPR PubSub using Go lang.
+An example of DAPR PubSub using Go lang. This is an implementation of producer consumer problem with retry.
 
 ## Prerequisites
-1. Docker/nerdctl
+1. Docker
 1. Golang 1.19 or later
 1. Dapr CLI 1.9 or later
-1. Initialized Dapr environment
 1. Linux, Mac, or Windows (with WSL)
 
 ## Run pubsub program locally
@@ -37,7 +36,6 @@ dapr run --app-id consumer --resources-path ./components --app-port 6003 --dapr-
 Start Producer-1
 ```
 dapr run --app-id producer --resources-path ./components --dapr-http-port 3601 --dapr-grpc-port 60001 go run producer/main.go
-
 ```
 
 ### Reference

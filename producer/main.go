@@ -12,7 +12,7 @@ import (
 
 func main() {
 	for i := 0; i < 10; i++ {
-		time.Sleep(2 * time.Second)
+		time.Sleep(1 * time.Second)
 		client, err := dapr.NewClient()
 		if err != nil {
 			panic(err)

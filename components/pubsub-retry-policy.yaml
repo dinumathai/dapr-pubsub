@@ -1,0 +1,17 @@
+apiVersion: dapr.io/v1alpha1
+kind: Resiliency
+metadata:
+  name: apppubsub-retry-policy
+spec:
+  targets:
+    components:
+      apppubsub:
+        inbound: # inbound only applies to delivery from sidecar to app
+          retry: threeRetry
+  policies:
+    # https://docs.dapr.io/operations/resiliency/policies/#retries
+    retries:
+      threeRetry:
+        policy: constant # OR exponential
+        maxInterval: 10s
+        maxRetries: 3
