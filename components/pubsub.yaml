@@ -1,7 +1,7 @@
 apiVersion: dapr.io/v1alpha1
 kind: Component
 metadata:
-  name: order-pub-sub
+  name: apppubsub
 spec:
   type: pubsub.rabbitmq
   version: v1
@@ -19,5 +19,5 @@ spec:
   - name: concurrency
     value: parallel
 scopes:
-  - orderprocessing
-  - checkout
+  - producer
+  - consumer

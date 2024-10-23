@@ -1,28 +1,37 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
+	"context"
+	"dapr-pubsub/appconst"
+	"log"
 	"net/http"
+	"time"
+
+	"github.com/dapr/go-sdk/service/common"
+	daprd "github.com/dapr/go-sdk/service/http"
 )
 
-type Order struct {
-	OrderID string `json:"orderId"`
-	Amount  int    `json:"amount"`
+// code
+var sub = &common.Subscription{
+	PubsubName: appconst.PUBSUB_NAME,
+	Topic:      appconst.TOPIC_NAME,
+	Route:      "/checkout",
 }
 
 func main() {
-	http.HandleFunc("/orders", func(w http.ResponseWriter, r *http.Request) {
-		var order Order
-		if err := json.NewDecoder(r.Body).Decode(&order); err != nil {
-			http.Error(w, "Invalid request payload", http.StatusBadRequest)
-			return
-		}
-		fmt.Printf("Received order: %+v\n", order)
-	})
-
-	fmt.Println("Starting consumer, waiting for messages...")
-	if err := http.ListenAndServe(":6000", nil); err != nil {
-		fmt.Println("Error starting server:", err)
+	s := daprd.NewService(":6002")
+	//Subscribe to a topic
+	if err := s.AddTopicEventHandler(sub, eventHandler); err != nil {
+		log.Fatalf("error adding topic subscription: %v", err)
 	}
+	if err := s.Start(); err != nil && err != http.ErrServerClosed {
+		log.Fatalf("error listening: %v", err)
+	}
+}
+
+func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err error) {
+	log.Printf("Subscriber received: %s", e.Data)
+	time.Sleep(15 * time.Second)
+	log.Printf("------------------------")
+	return false, nil
 }

@@ -1,41 +1,32 @@
 package main
 
+//dependencies
 import (
-	"bytes"
-	"encoding/json"
-	"fmt"
-	"net/http"
-	"os"
+	"context"
+	"dapr-pubsub/appconst"
+	"log"
+	"math/rand"
+	"strconv"
+	"time"
+
+	dapr "github.com/dapr/go-sdk/client"
 )
 
-const pubsubName = "my-pubsub"
-const topicName = "orders"
-
-type Order struct {
-	OrderID string `json:"orderId"`
-	Amount  int    `json:"amount"`
-}
-
 func main() {
-	order := Order{
-		OrderID: "123",
-		Amount:  250,
+	for i := 0; i < 10; i++ {
+		time.Sleep(5000)
+		orderId := rand.Intn(1000-1) + 1
+		client, err := dapr.NewClient()
+		if err != nil {
+			panic(err)
+		}
+		defer client.Close()
+		ctx := context.Background()
+		//Using Dapr SDK to publish a topic
+		if err := client.PublishEvent(ctx, appconst.PUBSUB_NAME, appconst.TOPIC_NAME, []byte(strconv.Itoa(orderId))); err != nil {
+			panic(err)
+		}
+
+		log.Println("Published data: " + strconv.Itoa(orderId))
 	}
-
-	data, err := json.Marshal(order)
-	if err != nil {
-		fmt.Println("Error marshalling order:", err)
-		os.Exit(1)
-	}
-
-	url := fmt.Sprintf("http://localhost:3500/v1.0/publish/%s/%s", pubsubName, topicName)
-
-	resp, err := http.Post(url, "application/json", bytes.NewBuffer(data))
-	if err != nil {
-		fmt.Println("Error publishing message:", err)
-		os.Exit(1)
-	}
-
-	defer resp.Body.Close()
-	fmt.Println("Published message to topic:", topicName)
 }
