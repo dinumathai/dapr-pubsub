@@ -21,15 +21,22 @@ DO NOT USE `jaegertracing/all-in-one` FOR PRODUCTION
 docker run -d --restart unless-stopped --name jaeger -e COLLECTOR_ZIPKIN_HOST_PORT=:9412 -p 16686:16686  -p 9412:9412 jaegertracing/all-in-one:1.22
 ```
 
-### Run Consumer locally
+### Initialize  DAPR
 ```
 dapr init 
 ```
+### Run Consumers and Producers locally
+Start Consumer-1
 ```
 dapr run --app-id consumer --resources-path ./components --app-port 6002 --dapr-http-port 3602 --dapr-grpc-port 60002 go run consumer/main.go
 ```
+Start Consumer-2
 ```
-dapr run --app-id producer --resources-path ./components --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 go run producer/main.go
+dapr run --app-id consumer --resources-path ./components --app-port 6003 --dapr-http-port 3603 --dapr-grpc-port 60003 go run consumer/main.go 6003
+```
+Start Producer-1
+```
+dapr run --app-id producer --resources-path ./components --dapr-http-port 3601 --dapr-grpc-port 60001 go run producer/main.go
 
 ```
 

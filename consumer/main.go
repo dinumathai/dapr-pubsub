@@ -3,8 +3,11 @@ package main
 import (
 	"context"
 	"dapr-pubsub/appconst"
+	"flag"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/dapr/go-sdk/service/common"
@@ -19,7 +22,14 @@ var sub = &common.Subscription{
 }
 
 func main() {
-	s := daprd.NewService(":6002")
+	port := "6002"
+	if len(os.Args) > 1 {
+		port = os.Args[1]
+	}
+	flag.Parse()
+	listeningPort := fmt.Sprintf(":%s", port)
+	log.Printf("Starting Server at %s", listeningPort)
+	s := daprd.NewService(listeningPort)
 	//Subscribe to a topic
 	if err := s.AddTopicEventHandler(sub, eventHandler); err != nil {
 		log.Fatalf("error adding topic subscription: %v", err)
@@ -30,8 +40,8 @@ func main() {
 }
 
 func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err error) {
-	log.Printf("Subscriber received: %s", e.Data)
-	time.Sleep(15 * time.Second)
+	log.Printf("Subscriber received: %v", e.Data)
+	time.Sleep(3 * time.Second)
 	log.Printf("------------------------")
 	return false, nil
 }

@@ -9,15 +9,15 @@ spec:
   - name: host
     value: "amqp://localhost:5672"
   - name: durable
-    value: "false"
+    value: "true"
   - name: deletedWhenUnused
     value: "false"
   - name: autoAck
     value: "false"
   - name: reconnectWait
     value: "0"
-  - name: concurrency
-    value: parallel
+  - name: concurrencyMode
+    value: single
 scopes:
   - producer
   - consumer
