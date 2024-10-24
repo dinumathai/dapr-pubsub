@@ -23,4 +23,5 @@ spec:
     value: single
 scopes:
   - producer
-  - consumer
+  - consumer1
+  - consumer2

@@ -27,14 +27,14 @@ dapr init
 Start Consumer-1
 ```sh
 # Start DAPR Sidecar for Consumer-1
-dapr run --app-id consumer --resources-path ./components --app-port 6002 --dapr-http-port 3602 --dapr-grpc-port 60002
+dapr run --app-id consumer1 --resources-path ./components --app-port 6002 --dapr-http-port 3602 --dapr-grpc-port 60002
 # Start Consumer-1 application
 go run consumer/main.go
 ```
 Start Consumer-2
 ```sh
 # Start DAPR Sidecar for Consumer-2
-dapr run --app-id consumer --resources-path ./components --app-port 6003 --dapr-http-port 3603 --dapr-grpc-port 60003
+dapr run --app-id consumer2 --resources-path ./components --app-port 6003 --dapr-http-port 3603 --dapr-grpc-port 60003
 # Start Consumer-2 application
 go run consumer/main.go 6003
 ```
