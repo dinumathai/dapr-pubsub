@@ -20,7 +20,7 @@ import (
 var sub = &common.Subscription{
 	PubsubName: appconst.PUBSUB_NAME,
 	Topic:      appconst.TOPIC_NAME,
-	Route:      "/checkout", // The Route of the application
+	Route:      "/the-consumer", // The Route of the application
 }
 
 func main() {
