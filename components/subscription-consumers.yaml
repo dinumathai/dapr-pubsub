@@ -1,0 +1,12 @@
+apiVersion: dapr.io/v2alpha1
+kind: Subscription
+metadata:
+  name: consumer-subscription
+spec:
+  pubsubname: apppubsub
+  topic: thetopic
+  routes: 
+    default: /events
+scopes:
+- producer
+- consumer

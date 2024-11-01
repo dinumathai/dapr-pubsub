@@ -1,0 +1,21 @@
+# https://docs.dapr.io/reference/components-reference/supported-pubsub/setup-rabbitmq/
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: apppubsub
+spec:
+  type: pubsub.rabbitmq
+  version: v1
+  metadata:
+  - name: host
+    value: "amqp://the-user:the-password@rabbitmq.rabbitmq.svc.cluster.local:5672"
+  - name: durable
+    value: "true"
+  - name: deletedWhenUnused
+    value: "false"
+  - name: autoAck
+    value: "false"
+  - name: reconnectWait
+    value: "0"
+  - name: concurrencyMode
+    value: single

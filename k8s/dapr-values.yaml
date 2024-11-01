@@ -1,0 +1,52 @@
+global:
+  actors:
+    enabled: false
+  scheduler:
+    enabled: false
+
+dapr_operator:
+  logLevel: error
+  watchInterval: 5m
+  resources:
+    requests:
+      memory: "24Mi"
+      cpu: "50m"
+    limits:
+      memory: "256Mi"
+      cpu: "500m"	
+
+dapr_sidecar_injector:
+  resources:
+    requests:
+      memory: "24Mi"
+      cpu: "50m"
+    limits:
+      memory: "128Mi"
+      cpu: "500m"	
+
+dapr_scheduler:
+  resources:
+    requests:
+      memory: "24Mi"
+      cpu: "50m"
+    limits:
+      memory: "128Mi"
+      cpu: "500m"	
+
+dapr_sentry:
+  resources:
+    requests:
+      memory: "24Mi"
+      cpu: "50m"
+    limits:
+      memory: "128Mi"
+      cpu: "500m"	
+
+dapr_placement:
+  resources:
+    requests:
+      memory: "24Mi"
+      cpu: "50m"
+    limits:
+      memory: "256Mi"
+      cpu: "500m"	

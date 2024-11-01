@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer
+  labels:
+    app: consumer
+spec:
+  replicas: 8
+  selector:
+    matchLabels:
+      app: consumer
+  template:
+    metadata:
+      labels:
+        app: consumer
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "consumer"
+        dapr.io/app-port: "6002"
+    spec:
+      containers:
+      - name: consumer
+        image: dmathai/dapr-pubsub
+        command: ["/http-consumer"]
