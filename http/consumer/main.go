@@ -32,15 +32,18 @@ func messageHandler(w http.ResponseWriter, r *http.Request) {
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		writeResponse(w, `{"success": "false"}`)
+		// https://docs.dapr.io/reference/api/pubsub_api/#provide-routes-for-dapr-to-deliver-topic-events
+		writeResponse(w, `{"status": "DROP"}`)
 		return
 	}
 	if randomNumber == 1 {
 		log.Printf("RETURN - RETRIABLE ERROR - %v ------", message)
 
 		w.Header().Set("Content-Type", "application/json")
+		// Non 2XX is retried. Also can set the staus as 200 and give the response as {"status": "RETRY"} or {"status": "ANY-STRING"} (refer below doc)
 		w.WriteHeader(http.StatusInternalServerError)
-		writeResponse(w, `{"success": "false"}`)
+		// https://docs.dapr.io/reference/api/pubsub_api/#provide-routes-for-dapr-to-deliver-topic-events
+		writeResponse(w, `{"status": "RETRY"}`)
 		return
 	}
 
